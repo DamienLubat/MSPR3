@@ -468,5 +468,79 @@ app.MapDelete("/DeletePrice", (IConfiguration configuration, int id) =>
     }
     return res;
 }).WithTags("Price");
+// Item
+app.MapPut("/CreatedItem", (IConfiguration configuration, ItemEntity model) =>
+{
+    IResult res;
+    try
+    {
+        ItemRepo repo = new ItemRepo(configuration);
+        repo.Created(model);
+        res = Results.Ok();
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("Item");
+app.MapGet("/ReadItem", (IConfiguration configuration, int id) =>
+{
+    IResult res;
+    try
+    {
+        ItemRepo repo = new ItemRepo(configuration);
+        res = Results.Ok(repo.Read(id));
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("Item");
+app.MapPost("/UpdateItem", (IConfiguration configuration, ItemEntity model) =>
+{
+    IResult res;
+    try
+    {
+        ItemRepo repo = new ItemRepo(configuration);
+        repo.Update(model);
+        res = Results.Ok();
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("Item");
+app.MapDelete("/DeleteItem", (IConfiguration configuration, int id) =>
+{
+    IResult res;
+    try
+    {
+        ItemRepo repo = new ItemRepo(configuration);
+        repo.Delete(id);
+        res = Results.Ok();
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("Item");
+app.MapGet("/ReadCardItem", (IConfiguration configuration) =>
+{
+    IResult res;
+    try
+    {
+        ItemRepo repo = new ItemRepo(configuration);
+        res = Results.Ok(repo.ReadListCard());
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("Item");
 
 app.Run();
