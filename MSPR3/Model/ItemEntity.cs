@@ -1,4 +1,6 @@
-﻿namespace MSPR3.Model
+﻿using System.ComponentModel;
+
+namespace MSPR3.Model
 {
     public class ItemEntity
     {
@@ -13,6 +15,20 @@
         public int IDPrice { get; set; }
         public int IDTax { get; set; }
         public int IDVolume { get; set; }
+
+        public string? DescriptionShort { get; set; }
+        public decimal Price { get; set; }
+        public string? MediaPath { get; set; }
+        public ItemEntity(int IDItem, string GTIN, string DescriptionShort, decimal Price, string MediaPath)
+        {
+            this.IDItem = IDItem;
+            this.GTIN = GTIN;
+            this.DescriptionShort = DescriptionShort;
+            this.Price = Price;
+            this.MediaPath = MediaPath;
+        }
+
+        public ItemEntity() { }
 
         public string CreatedEntity()
         {
@@ -32,7 +48,7 @@
         }
         public string ReadCardEntity()
         {
-            return "Select Items.GTIN, Descriptives.DescriptionShort, Prices.PriceHT, Medias.MediaPath " +
+            return "Select Items.IDItem, Items.GTIN, Descriptives.DescriptionShort, Prices.PriceHT, Medias.MediaPath " +
                 "From Items Items " +
                 "Inner Join Descriptives On Descriptives.IDDescriptive = Items.IDDescriptive " +
                 "Inner Join Medias On Medias.IDMedia = Items.IDMedia " +

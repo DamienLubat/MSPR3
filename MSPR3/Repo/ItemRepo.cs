@@ -44,10 +44,26 @@ namespace MSPR3.Repo
 
         public List<ItemEntity> ReadListCard()
         {
-            List<ItemEntity> listCard = new List<ItemEntity>();
-            
+            List<ItemEntity> listItem = new List<ItemEntity>();
+            ItemEntity model = new ItemEntity();
+            var oSqlConnection = new SqlConnection(configurationString);
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(model.ReadCardEntity(), oSqlConnection);
+            DataTable dataTable = new DataTable();
+            dataAdapter.Fill(dataTable);
 
-            return listCard;
+            foreach (DataRow row in dataTable.Rows)
+            {
+                listItem.Add(new ItemEntity
+                {
+                    IDItem = (int)row["IDITEM"],
+                    GTIN = (string)row["GTIN"],
+                    DescriptionShort = (string)row["DESCRIPTIONSHORT"],
+                    Price = (decimal)row["PRICEHT"],
+                    MediaPath = (string)row["MEDIAPATH"]
+                });
+            }
+
+            return listItem;
         }
     }
 }
