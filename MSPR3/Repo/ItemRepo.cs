@@ -2,6 +2,8 @@
 using Dapper;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using System.ComponentModel;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace MSPR3.Repo
 {
@@ -38,7 +40,7 @@ namespace MSPR3.Repo
             ItemEntity model = new ItemEntity();
             using (IDbConnection db = new SqlConnection(configurationString))
             {
-                db.QueryFirstOrDefault<ItemEntity>(model.DeleteEntity(), new { IDItem = IDItem });
+               db.QueryFirstOrDefault<ItemEntity>(model.DeleteEntity(), new { IDItem = IDItem });
             };
         }
 
@@ -60,6 +62,46 @@ namespace MSPR3.Repo
                     DescriptionShort = (string)row["DESCRIPTIONSHORT"],
                     Price = (decimal)row["PRICEHT"],
                     MediaPath = (string)row["MEDIAPATH"]
+                });
+            }
+
+            return listItem;
+        }
+
+        public bool CheckIfItemExistsByGTIN(string GTIN)
+        {
+            using (IDbConnection db = new SqlConnection(configurationString))
+            {
+                var result = db.ExecuteScalar<int>("SELECT COUNT(*) FROM Items WHERE GTIN = @GTIN", new { GTIN = GTIN });
+                return result > 0;
+            };
+        }
+
+        public List<ItemEntity> GetItemsBySupplierAndKeyword(string Name, string KeywordDescription)
+        {
+            List<ItemEntity> listItem = new List<ItemEntity>();
+            ItemEntity model = new ItemEntity();
+            var oSqlConnection = new SqlConnection(configurationString);
+            DataTable dataTable = new DataTable();
+
+            using (var command = new SqlCommand(model.GetItemsBySupplierAndKeyword(), oSqlConnection))
+            {
+                command.Parameters.AddWithValue("@Name", Name);
+                command.Parameters.AddWithValue("@KeywordDescription", KeywordDescription);
+
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+
+                dataAdapter.Fill(dataTable);
+            }
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                listItem.Add(new ItemEntity
+                {
+                    IDItem = (int)row["IDITEM"],
+                    IDSupplier = (int)row["IDSupplier"],
+                    Name = (string)row["Name"],
+                    KeywordDescription = (string)row["KeywordDescription"]
                 });
             }
 

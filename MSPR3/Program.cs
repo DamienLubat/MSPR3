@@ -1,5 +1,6 @@
-using MSPR3.Model;
+﻿using MSPR3.Model;
 using MSPR3.Repo;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,7 +59,7 @@ app.MapPut("/CreatedMedia", (IConfiguration configuration, MediaEntity model) =>
         repo.Created(model);
         res = Results.Ok();
     }
-    catch(Exception ex)
+    catch (Exception ex)
     {
         res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
     }
@@ -72,7 +73,7 @@ app.MapGet("/ReadMedia", (IConfiguration configuration, int id) =>
         MediaRepo repo = new MediaRepo(configuration);
         res = Results.Ok(repo.Read(id));
     }
-    catch(Exception ex)
+    catch (Exception ex)
     {
         res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
     }
@@ -82,12 +83,12 @@ app.MapPost("/UpdateMedia", (IConfiguration configuration, MediaEntity model) =>
 {
     IResult res;
     try
-    {  
+    {
         MediaRepo repo = new MediaRepo(configuration);
         repo.Update(model);
         res = Results.Ok();
     }
-    catch(Exception ex)
+    catch (Exception ex)
     {
         res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
     }
@@ -97,12 +98,12 @@ app.MapDelete("/DeleteMedia", (IConfiguration configuration, int id) =>
 {
     IResult res;
     try
-    {  
+    {
         MediaRepo repo = new MediaRepo(configuration);
         repo.Delete(id);
         res = Results.Ok();
     }
-    catch(Exception ex)
+    catch (Exception ex)
     {
         res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
     }
@@ -535,6 +536,38 @@ app.MapGet("/ReadCardItem", (IConfiguration configuration) =>
     {
         ItemRepo repo = new ItemRepo(configuration);
         res = Results.Ok(repo.ReadListCard());
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("Item");
+
+//fournisseur demande de créer un article qu’existe déjà en « code universel » ça bascule automatiquement sur une demande de modification
+app.MapGet("/CheckItemExistsBGTIN", (IConfiguration configuration, string GTIN) =>
+{
+    IResult res;
+    try
+    {
+        ItemRepo repo = new ItemRepo(configuration);
+        res = Results.Ok(repo.CheckIfItemExistsByGTIN(GTIN));
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("Item");
+
+//méthode de renvoi d’une liste complète d’article selon les critères Fournisseurs et/ou mot clé
+app.MapGet("/GetItemsBySupplierAndKeyword", (IConfiguration configuration, string Name, string KeywordDescription) =>
+{
+    IResult res;
+    try
+    {
+        ItemRepo repo = new ItemRepo(configuration);
+        res = Results.Ok(new { ExistsIDItem = repo.GetItemsBySupplierAndKeyword(Name, KeywordDescription) });
     }
     catch (Exception ex)
     {

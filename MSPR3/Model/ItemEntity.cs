@@ -19,6 +19,9 @@ namespace MSPR3.Model
         public string? DescriptionShort { get; set; }
         public decimal Price { get; set; }
         public string? MediaPath { get; set; }
+
+        public string? Name { get; set; }
+        public string? KeywordDescription { get; set; }
         public ItemEntity(int IDItem, string GTIN, string DescriptionShort, decimal Price, string MediaPath)
         {
             this.IDItem = IDItem;
@@ -26,6 +29,14 @@ namespace MSPR3.Model
             this.DescriptionShort = DescriptionShort;
             this.Price = Price;
             this.MediaPath = MediaPath;
+        }
+
+        public ItemEntity(int IDItem, int IDSupplier, string Name, string KeywordDescription)
+        {
+            this.IDItem = IDItem;
+            this.IDSupplier = IDSupplier;
+            this.Name = Name;
+            this.KeywordDescription = KeywordDescription;
         }
 
         public ItemEntity() { }
@@ -44,7 +55,7 @@ namespace MSPR3.Model
         }
         public string DeleteEntity()
         {
-            return "DELETE FROM Items WHERE IDItem = @IDItem";
+            return "DELETE FROM UsersItems WHERE IDItem = @IDItem\r\nDELETE FROM Items WHERE IDItem = @IDItem";
         }
         public string ReadCardEntity()
         {
@@ -53,6 +64,19 @@ namespace MSPR3.Model
                 "Inner Join Descriptives On Descriptives.IDDescriptive = Items.IDDescriptive " +
                 "Inner Join Medias On Medias.IDMedia = Items.IDMedia " +
                 "Inner Join Prices On Prices.IDPrice = Items.IDPrice ";
+        }
+
+        public string CheckIfItemExistsByGTINEntity()
+        {
+            return "SELECT 1 FROM Items WHERE GTIN = @GTIN";
+        }
+
+        public string GetItemsBySupplierAndKeyword()
+        {
+            return "SELECT * FROM Items\r\n" +
+                "INNER JOIN Suppliers ON Items.IDSupplier = Suppliers.IDSupplier\r\n" +
+                "INNER JOIN Keywords ON Items.IDItem = Keywords.IDItem\r\n" +
+                "WHERE Suppliers.Name = @Name AND Keywords.KeywordDescription = @KeywordDescription";
         }
     }
 }
