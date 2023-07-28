@@ -543,6 +543,20 @@ app.MapGet("/ReadCardItem", (IConfiguration configuration) =>
     }
     return res;
 }).WithTags("Item");
+app.MapGet("/ReadItemDetail", (IConfiguration configuration, int id) =>
+{
+    IResult res;
+    try
+    {
+        ItemRepo repo = new ItemRepo(configuration);
+        res = Results.Ok(repo.ReadDetail(id));
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("Item");
 
 //fournisseur demande de créer un article qu’existe déjà en « code universel » ça bascule automatiquement sur une demande de modification
 app.MapGet("/CheckItemExistsBGTIN", (IConfiguration configuration, string GTIN) =>

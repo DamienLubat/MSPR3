@@ -65,6 +65,15 @@ namespace MSPR3.Model
                 "Inner Join Medias On Medias.IDMedia = Items.IDMedia " +
                 "Inner Join Prices On Prices.IDPrice = Items.IDPrice ";
         }
+        public string ReadDetailEntity()
+        {
+            return "Select Items.IDItem, Items.GTIN, Descriptives.DescriptionShort, Prices.PriceHT, Medias.MediaPath " +
+                "From Items Items " +
+                "Inner Join Descriptives On Descriptives.IDDescriptive = Items.IDDescriptive " +
+                "Inner Join Medias On Medias.IDMedia = Items.IDMedia " +
+                "Inner Join Prices On Prices.IDPrice = Items.IDPrice " +
+                "Where IDItem = @IDItem";
+        }
 
         public string CheckIfItemExistsByGTINEntity()
         {

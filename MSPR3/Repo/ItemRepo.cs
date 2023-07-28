@@ -67,6 +67,33 @@ namespace MSPR3.Repo
 
             return listItem;
         }
+        public ItemEntity ReadDetail(int id)
+        {
+            ItemEntity model = new ItemEntity();
+            var oSqlConnection = new SqlConnection(configurationString);
+            SqlCommand command = new SqlCommand(model.ReadDetailEntity(), oSqlConnection);
+            command.Parameters.Add(new SqlParameter("@IDItem", id));
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+
+            DataTable dataTable = new DataTable();
+            dataAdapter.Fill(dataTable);
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                model = new ItemEntity
+                {
+                    IDItem = (int)row["IDITEM"],
+                    GTIN = (string)row["GTIN"],
+                    DescriptionShort = (string)row["DESCRIPTIONSHORT"],
+                    Price = (decimal)row["PRICEHT"],
+                    MediaPath = (string)row["MEDIAPATH"]
+                };
+            }
+
+            return model;
+        }
+
 
         public bool CheckIfItemExistsByGTIN(string GTIN)
         {
