@@ -55,7 +55,7 @@ namespace MSPR3.Model
         }
         public string DeleteEntity()
         {
-            return "DELETE FROM UsersItems WHERE IDItem = @IDItem\r\nDELETE FROM Items WHERE IDItem = @IDItem";
+            return "DELETE FROM Items WHERE IDItem = @IDItem";
         }
         public string ReadCardEntity()
         {
