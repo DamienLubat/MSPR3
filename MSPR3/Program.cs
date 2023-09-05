@@ -1,4 +1,5 @@
-﻿using MSPR3.Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using MSPR3.Model;
 using MSPR3.Repo;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
@@ -589,5 +590,83 @@ app.MapGet("/GetItemsBySupplierAndKeyword", (IConfiguration configuration, strin
     }
     return res;
 }).WithTags("Item");
+
+
+
+// User
+app.MapPut("/CreatedUser", (IConfiguration configuration, UserEntity model) =>
+{
+    IResult res;
+    try
+    {
+        UserRepo repo = new UserRepo(configuration);
+        repo.Created(model);
+        res = Results.Ok();
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("User");
+app.MapGet("/ReadUser", (IConfiguration configuration, int id) =>
+{
+    IResult res;
+    try
+    {
+        UserRepo repo = new UserRepo(configuration);
+        res = Results.Ok(repo.Read(id));
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("User");
+app.MapPost("/UpdateUser", (IConfiguration configuration, UserEntity model) =>
+{
+    IResult res;
+    try
+    {
+        UserRepo repo = new UserRepo(configuration);
+        repo.Update(model);
+        res = Results.Ok();
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("User");
+app.MapDelete("/DeleteUser", (IConfiguration configuration, int id) =>
+{
+    IResult res;
+    try
+    {
+        UserRepo repo = new UserRepo(configuration);
+        repo.Delete(id);
+        res = Results.Ok();
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("User");
+
+app.MapPost("/login", (IConfiguration configuration, [FromBody] UserEntity model) =>
+{
+    IResult res;
+    try
+    {
+        UserRepo repo = new UserRepo(configuration);
+        res = Results.Ok(repo.AuthenticateUser(model));
+    }
+    catch (Exception ex)
+    {
+        res = Results.BadRequest($"Une erreur s'est produite : {ex.Message}");
+    }
+    return res;
+}).WithTags("User");
 
 app.Run();

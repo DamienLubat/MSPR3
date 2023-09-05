@@ -1,9 +1,7 @@
-﻿using MSPR3.Model;
-using Dapper;
-using System.Data;
+﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using System.ComponentModel;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using MSPR3.Model;
+using System.Data;
 
 namespace MSPR3.Repo
 {
