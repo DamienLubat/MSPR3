@@ -9,7 +9,7 @@ namespace MSPR3.Repo
     {
         private readonly string configurationString;
 
-        public ItemRepo(IConfiguration configuration) => configurationString = configuration.GetConnectionString("SQL");
+        public ItemRepo(IConfiguration configuration) => configurationString = configuration.GetConnectionString("SQL")!;
 
         public void Created(ItemEntity model)
         {
