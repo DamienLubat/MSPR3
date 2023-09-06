@@ -23,7 +23,7 @@ jobs:
             - name: Upload to FTP
               uses: sebastianpopp/ftp-action@master
               with:
-                host: 51.91.148.161
+                host: ${{ env.SERVEURFTP_ATELIER }}
                 user: ducobu
                 password: ducobu
                 localDir: "./SQL/"
