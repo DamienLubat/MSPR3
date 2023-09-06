@@ -1,0 +1,12 @@
+name: Starter get artifacts
+on: [workflow_dispatch]
+jobs:
+  get-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+    - id: result 
+    - name: Upload artefacts
+      uses: actions/upload-artifacts@v3
+      with:
+        names: artefact
+        path: Asset/Artefacts/
