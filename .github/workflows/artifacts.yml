@@ -1,5 +1,8 @@
 name: Starter get artifacts
-on: [workflow_dispatch]
+on: 
+    workflow_dispatch:
+        branches:
+            - dev
 jobs:
 
     get-artifacts:
