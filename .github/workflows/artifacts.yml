@@ -37,3 +37,7 @@ jobs:
                 password: ducobu
                 localDir: "./SQL/"
                 remoteDir: "./MSPRgroupe3/"
+
+        
+            - name: Update README.md from action.yml
+              uses: Dirrk/action-docs@v1
