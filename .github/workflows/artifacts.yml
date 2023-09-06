@@ -18,15 +18,6 @@ jobs:
               with:
                 names: artefact
                 path: SQL/
-
-            - name: Install Pandoc
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y pandoc
-        
-            - name: Generate PDF documentation
-              run: |
-                pandoc README.md
                 
 
             - name: Upload to FTP
