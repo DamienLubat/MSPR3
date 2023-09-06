@@ -1,6 +1,6 @@
 name: Starter get artifacts
 on: 
-    workflow_dispatch:
+    push:
         branches:
             - dev
 jobs:
