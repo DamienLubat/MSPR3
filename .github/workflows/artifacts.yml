@@ -26,7 +26,7 @@ jobs:
         
             - name: Generate PDF documentation
               run: |
-                pandoc README.md -o
+                pandoc README.md
                 
 
             - name: Upload to FTP
