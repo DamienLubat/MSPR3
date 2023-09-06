@@ -26,7 +26,8 @@ jobs:
         
             - name: Generate PDF documentation
               run: |
-                pandoc README.md -o README.pdf
+                pandoc README.md -o
+                
 
             - name: Upload to FTP
               uses: sebastianpopp/ftp-action@master
