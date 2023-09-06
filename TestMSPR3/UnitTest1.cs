@@ -14,6 +14,11 @@ namespace MSPR3_TEST
         {
             Assert.IsTrue(true);
         }
+        [TestMethod]
+        public void TestMethod2()
+        {
+            Assert.IsTrue(false);
+        }
         //private readonly WebApplicationFactory<TestStartup> _factory;
         //private readonly HttpClient _client;
 
