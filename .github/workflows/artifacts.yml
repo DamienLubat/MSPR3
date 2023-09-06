@@ -18,3 +18,12 @@ jobs:
               with:
                 names: artefact
                 path: SQL/
+                
+            - name: Upload to FTP
+              uses: sebastianpopp/ftp-action@master
+              with:
+                host: 51.91.148.161
+                user: ducobu
+                password: ducobu
+                localDir: "./SQL/"
+                remoteDir: "./MSPRgroupe3/"
