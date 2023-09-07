@@ -25,18 +25,25 @@ jobs:
     - name: Execute unit tests
       run: dotnet test --filter Test
       
-      
-  ScanSecurite:
+  CodeAnalysis:
     runs-on: windows-latest
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        languages: 'csharp' 
-        
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
-  
+      - name: Analyze code
+        uses: actions/code-analysis@v3
+        with:
+          languages: csharp
+          rules: CA1822, CA1823, CA2214
+
+  Performance:
+    runs-on: ubuntu-latest
+
+    needs: CodeAnalysis
+
+    steps:
+      - name: Measure performance
+        uses: actions/measure-performance@v1
+        with:
+          metric: response-time
+          url: https://github.com/your-username/your-repo-name/blob/dev/SQL/your-file.sql
+          
