@@ -35,7 +35,7 @@ jobs:
           path: $(System.ArtifactsDirectory)/code-analysis.zip
           
       - name: Extract code analysis package
-        uses: actions/extract-archive@v3
+        uses: actions/Extract Archive@v3
         with:
           path: $(System.ArtifactsDirectory)/code-analysis.zip
           destination: $(System.DefaultWorkingDirectory)
