@@ -34,8 +34,9 @@ jobs:
           name: code-analysis
           path: $(System.ArtifactsDirectory)/code-analysis.zip
           
-      - name: Extract code analysis package
-        uses: actions/Extract Archive@v3
+      - name: Extraire les fichiers du zip
+        id: extract-files
+        uses: ihiroky/extract-action@v1
         with:
           path: $(System.ArtifactsDirectory)/code-analysis.zip
           destination: $(System.DefaultWorkingDirectory)
