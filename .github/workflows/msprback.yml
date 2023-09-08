@@ -24,15 +24,4 @@ jobs:
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: dotnet test --filter Test
-      
-  
-  Performance:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Measure performance
-        uses: https://github.com/actions/measure-performance.git@ref=v1
-        with:
-          metric: response-time
-          url: https://github.com/DamienLubat/MSPR3/blob/dev/SQL/SQLQuery_MSPR3.sql
           
