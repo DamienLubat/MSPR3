@@ -25,36 +25,9 @@ jobs:
     - name: Execute unit tests
       run: dotnet test --filter Test
       
-  InstallCodeAnalysis:
-    runs-on: windows-latest
-    steps:
-      - name: Download code analysis package
-        uses: actions/download-artifact@v3
-        with:
-          name: code-analysis
-          path: $(System.ArtifactsDirectory)/code-analysis.zip
-          
-      - name: Extraire les fichiers du zip
-        id: extract-files
-        uses: ihiroky/extract-action@v1
-        with:
-          path: $(System.ArtifactsDirectory)/code-analysis.zip
-          destination: $(System.DefaultWorkingDirectory)
-
-  CodeAnalysis:
-    runs-on: windows-latest
-
-    steps:
-      - name: Analyze code
-        uses: actions/code-analysis@v3
-        with:
-          languages: csharp
-          rules: CA1822, CA1823, CA2214
-
+  
   Performance:
     runs-on: ubuntu-latest
-
-    needs: CodeAnalysis
 
     steps:
       - name: Measure performance
