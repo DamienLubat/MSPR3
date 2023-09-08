@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Measure performance
-        uses: actions/measure-performance@v1
+        uses: https://github.com/actions/measure-performance.git@ref=v1
         with:
           metric: response-time
           url: https://github.com/DamienLubat/MSPR3/blob/dev/SQL/SQLQuery_MSPR3.sql
