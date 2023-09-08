@@ -34,5 +34,5 @@ jobs:
         uses: actions/measure-performance@v1
         with:
           metric: response-time
-          url: https://github.com/your-username/your-repo-name/blob/dev/SQL/your-file.sql
+          url: https://github.com/DamienLubat/MSPR3/blob/dev/SQL/SQLQuery_MSPR3.sql
           
