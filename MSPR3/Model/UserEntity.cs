@@ -1,26 +1,39 @@
-﻿namespace MSPR3.Model
+﻿namespace MSPR3.Entity
 {
     public class UserEntity
     {
         public int IDUser { get; set; }
-        public string? Username { get; set; }
-        public string? Password { get; set; }
+        public string Username { get; set; }
+        public string PasswordHash { get; set; }
 
-        public string CreatedEntity()
+        public UserEntity() { }
+        public UserEntity(int id, string username, string password)
         {
-            return "INSERT INTO Users(Username, Password) VALUES (@Username, @Password)";
+            IDUser = id;
+            Username = username;
+            PasswordHash = password;
         }
-        public string ReadEntity()
+
+        public string CreateString()
         {
-            return "SELECT IDUser, Username, Password FROM Users WHERE IDUser = @IDUser";
+            return "Insert Into Users(USERNAME, PASSWORDHASH) Values (@Username, @PasswordHash); Select @@Identity;";
         }
-        public string UpdateEntity()
+        public string ReadString(string type)
         {
-            return "UPDATE Users SET Username = @Username, Password = @Password WHERE IDUser = @IDUser";
+            var typeExtend = (type == "Id") ? "User" : "";
+            return $"Select * From Users Where {type}{typeExtend} = @{type}";
         }
-        public string DeleteEntity()
+        public string UpdateString()
         {
-            return "DELETE FROM Users WHERE IDUser = @IDUser";
+            return "Update Users Set USERNAME = @Username, PASSWORDHASH = @PasswordHash Where IDUser = @IdUser";
+        }
+        public string DeleteString()
+        {
+            return "Delete Users Where IDUser = @IDUser";
+        }
+        public string GetAllString()
+        {
+            return "Select * From Users";
         }
     }
 }
