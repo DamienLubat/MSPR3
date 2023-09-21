@@ -1,0 +1,27 @@
+name: msprback
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+      
+  Test:
+    runs-on: windows-latest  
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+  
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+  
+    # Execute all unit tests in the solution
+    - name: Execute unit tests
+      run: dotnet test --filter Test
+          

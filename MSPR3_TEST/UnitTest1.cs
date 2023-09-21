@@ -25,7 +25,7 @@ namespace MSPR3_TEST
 
             Assert.IsNotNull(item);
             Assert.AreEqual(1, item.Id);
-            // ... D'autres assertions basées sur vos attentes ...
+            // ... D'autres assertions basï¿½es sur vos attentes ...
         }
     }
 }
