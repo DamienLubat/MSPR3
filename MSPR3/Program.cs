@@ -1,4 +1,6 @@
-﻿using MSPR3.Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using MSPR3.Entity;
+using MSPR3.Model;
 using MSPR3.Repo;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
@@ -589,5 +591,51 @@ app.MapGet("/GetItemsBySupplierAndKeyword", (IConfiguration configuration, strin
     }
     return res;
 }).WithTags("Item");
+
+
+
+// User
+// -------------------------------------------------
+// --- CRUD USER ---
+// -------------------------------------------------
+//  CREATE
+app.MapPut("/createUser", (UserEntity model) =>
+{
+    var ok = new UserRepo(builder.Configuration).Insert(model);
+    return ok != -1 ? Results.Created($"/{ok}", model.IDUser = ok) : Results.Problem(new ProblemDetails { Detail = "L'insert n'a pas marché", Status = 500 });
+}).WithName("CREATE User").WithTags("User");
+//  READ
+app.MapGet("/getUserById/{id:int}", (int id) =>
+{
+    return new UserRepo(builder.Configuration).GetById(id);
+}).WithName("READ User by Id").WithTags("User");
+
+app.MapGet("/getUserByUsername/{username}", (string username) =>
+{
+    return new UserRepo(builder.Configuration).GetByUsername(username);
+}).WithName("READ User by Username").WithTags("User");
+//  UPDATE
+app.MapPost("/updateUser", (UserEntity model) =>
+{
+    var ok = new UserRepo(builder.Configuration).Update(model);
+    return ok ? Results.NoContent() : Results.Problem(new ProblemDetails { Detail = "L'update n'a pas marché", Status = 500 });
+}).WithName("UPDATE User").WithTags("User");
+//  DELETE
+app.MapDelete("/deleteUser/{id:int}", (int id) =>
+{
+    var ok = new UserRepo(builder.Configuration).Delete(id);
+    return ok ? Results.NoContent() : Results.Problem(new ProblemDetails { Detail = "Le delete n'a pas marché", Status = 500 });
+}).WithName("DELETE User").WithTags("User");
+//  GETALL
+app.MapGet("/allUser", () =>
+{
+    return new UserRepo(builder.Configuration).Getall();
+}).WithName("_ALL User").WithName("ALL User").WithTags("User");
+
+//  LOGIN
+app.MapPost("/userLogin", ([FromBody] UserEntity model) =>
+{
+    return new UserRepo(builder.Configuration).Login(model);
+}).WithName("_User Login").WithName("User Login").WithTags("User");
 
 app.Run();

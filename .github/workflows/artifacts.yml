@@ -1,0 +1,34 @@
+name: Starter get artifacts
+on: 
+    push:
+        branches:
+            - dev
+jobs:
+
+    get-artifacts:
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Upload artefacts
+              uses: actions/upload-artifact@v3
+              with:
+                names: artefact
+                path: SQL/
+                
+
+            - name: Upload to FTP
+              uses: sebastianpopp/ftp-action@master
+              with:
+                host: ${{ env.SERVEURFTP_ATELIER }}
+                user: ducobu
+                password: ducobu
+                localDir: "./SQL/"
+                remoteDir: "./MSPRgroupe3/"
+
+        
+            - name: Update README.md from action.yml
+              uses: Dirrk/action-docs@v1
